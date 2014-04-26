@@ -1,0 +1,6 @@
+name = "Notifications"
+description = "Display drupal in HTML 5 Notifications if supported"
+core = 7.x
+package = Content
+version = 7.x-1.0
+configure = admin/config/content/notifications

@@ -1,0 +1,83 @@
+<?php 
+/**
+ * Implements hook_permission.
+*/
+function notifications_permission() {
+	return array(
+    	'access notifications' => array(
+    		'title' => t('Allow user to grant themselves access to Notifications.'),
+    	),      	
+    );
+}
+
+
+/**
+ * Implements hook_init.
+*/
+/*function notifications_init() {
+
+}*/
+
+
+/**
+ * Implements hook_page_alter.
+*/
+function notifications_page_alter(&$page) {
+	$messages = drupal_get_messages(null, FALSE);
+	
+	if ( count( $messages ) ) {
+		$settings = array( 'selector' => variable_get('messages_html_selector', '#console'), 'messages' => $messages );
+		drupal_add_js(array('notifications' => $settings), 'setting');
+		drupal_add_js(drupal_get_path('module', 'notifications') .'/js/notifications.js', 'file');
+	}
+}	
+
+
+/**
+ * Implements hook_admin.
+*/
+function notifications_admin() {
+	$form = array();
+
+	drupal_add_css(drupal_get_path('module', 'notifications') .'/css/notifications_admin.css');
+	drupal_add_js(drupal_get_path('module', 'notifications') .'/js/notifications_admin.js');
+
+	$form['notifications_grant_access'] = array(
+		'#markup' => '<button type="button" id="edit-notifications-grant-access">Grant Access</button>',
+	);
+	
+	$form['messages_html_selector'] = array(
+		 '#type' => 'textfield', 
+		 '#title' => t('Messages Selector'), 
+		 '#default_value' => variable_get('messages_html_selector', '#console'), 
+		 '#size' => 60,
+	);
+	
+	return system_settings_form($form);
+}
+
+
+
+/**
+ * Implements hook_menu.
+*/
+function notifications_menu() {
+	
+  	$items = array();
+
+  	$items['admin/config/content/notifications'] = array(
+    	'title' => 'Notifications Stettings',
+    	'description' => 'Grant access to notifications for use with Drupals messaging system.',
+    	'page callback' => 'drupal_get_form',
+    	'page arguments' => array('notifications_admin'),
+    	'access arguments' => array('access notifications'),
+	);
+
+	return $items;
+}
+
+
+
+/**
+ * Private Functions
+*/
