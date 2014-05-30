@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title></title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" media="all" href="" />
+<style type="text/css"></style>
+</head>
+<body>
+
+<button>Notify me!</button>
+
+
+
+<!-- # script -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript">
+(function () {
+
+	if (!window.Notification) return false;
+	
+	var N = Notification,
+		NPerms = function() {
+			if (N.permission === "granted") {
+				return true;
+			} else if (N.permission !== 'denied') {
+				N.requestPermission(function (permission) {
+					if(!('permission' in N)) { N.permission = permission; }
+					if (permission === "granted") { return true; }
+					else { return false; }
+				});
+			}
+		},
+		notify = function(message) {
+			if (NPerms()) {
+				var notification = new N(message);
+			}
+		};
+		
+		
+
+
+document.getElementsByTagName('button')[0].addEventListener("click", function() {
+	notify('My text');
+}, false);
+
+notify('Hi ROn');
+
+})();
+</script>
+</body>
+</html>

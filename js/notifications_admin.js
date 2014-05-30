@@ -22,7 +22,7 @@
 	},
 	$permissionButton = $("#edit-notifications-grant-access"),
 	successPerms = function () { $permissionButton.addClass('success').html('Notifications On').prop('disabled', true); },
-	failedPerms = function () { $permissionButton.addClass('warning').html('Notifications Off').prop('disabled', true); };
+	failedPerms = function () { $permissionButton.addClass('warning').html('Notifications Off'); };
 	
 	if ( Notification.permission === "granted" ) { successPerms(); }
 	else if ( Notification.permission === "denied" ) { failedPerms(); }
